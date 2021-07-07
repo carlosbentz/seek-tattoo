@@ -1,5 +1,6 @@
 from app.configs.database import db
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class AddressModel(db.Model):
@@ -13,4 +14,6 @@ class AddressModel(db.Model):
     state = Column(String(50), nullable=False)
     address_active = Column(Boolean, default=True)
 
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('user.id'), )
+
+    this_user = relationship('UserModel', backref='this_address', uselist=False)

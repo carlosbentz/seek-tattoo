@@ -1,5 +1,6 @@
 from app.configs.database import db 
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class UserModel(db.Model):
@@ -12,6 +13,8 @@ class UserModel(db.Model):
     password_hash = Column(String)
 
     artist_id = Column(Integer, ForeignKey('artist.id'), unique=True)
+
+    this_artist = relationship('ArtistModel', backref='this_user', uselist=False)
 
     @property
     def password(self):
