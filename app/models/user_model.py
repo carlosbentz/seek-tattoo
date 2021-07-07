@@ -11,7 +11,7 @@ class UserModel(db.Model):
     email = Column(String, nullable=False, unique=True)
     password_hash = Column(String)
 
-    artist_id = Column(Integer, ForeignKey('artist'), unique=True)
+    artist_id = Column(Integer, ForeignKey('artist.id'), unique=True)
 
     @property
     def password(self):
