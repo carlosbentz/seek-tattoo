@@ -14,7 +14,7 @@ class UserModel(db.Model):
     is_artist: bool
     description_id: int 
 
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
 
@@ -24,7 +24,7 @@ class UserModel(db.Model):
 
     is_artist = Column(Boolean, default=False)
 
-    description_id = Column(Integer, ForeignKey('description.id'))
+    description_id = Column(Integer, ForeignKey('descriptions.id'))
 
     this_description = relationship('DescriptionModel', backref='this_user', uselist=False)
 

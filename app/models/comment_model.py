@@ -5,10 +5,10 @@ from dataclasses import dataclass
 
 
 @dataclass 
-class CommentsModel(db.Model):
+class CommentModel(db.Model):
 
     id: int 
-    datatime: str 
+    datetime: str 
     user_id: int 
 
     __tablename__ = 'comments'
@@ -19,7 +19,7 @@ class CommentsModel(db.Model):
 
     datetime = Column(DateTime, nullable=False)
 
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     this_user = relationship('UserModel', backref='this_comments', secondary='ImageStyleCommentsModel')
 

@@ -10,7 +10,7 @@ class DescriptionModel(db.Model):
     trait: str 
     paints: str  
 
-    __tablename__ = 'description'
+    __tablename__ = 'descriptions'
 
     id = Column(Integer, primary_key=True)
 

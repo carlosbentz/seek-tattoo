@@ -12,7 +12,7 @@ class AddressModel(db.Model):
     state: str 
     user_id: int
 
-    __tablename__ = 'address'
+    __tablename__ = 'addresses'
 
     id = Column(Integer, primary_key=True)
 
@@ -21,6 +21,6 @@ class AddressModel(db.Model):
     state = Column(String(50), nullable=False)
     
 
-    user_id = Column(Integer, ForeignKey('user.id'), )
+    user_id = Column(Integer, ForeignKey('users.id'), )
 
     this_user = relationship('UserModel', backref='this_address')
