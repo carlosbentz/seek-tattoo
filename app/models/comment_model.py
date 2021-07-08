@@ -21,7 +21,7 @@ class CommentModel(db.Model):
 
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    this_user = relationship('UserModel', backref='this_comments', secondary='ImageStyleCommentsModel')
+    this_user = relationship('UserModel', backref='this_comments', secondary='image_styles')
 
 
 
