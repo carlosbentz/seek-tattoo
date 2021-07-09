@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 
 @dataclass 
-class CommentsModel(db.Model):
+class CommentModel(db.Model):
 
     id: int 
     datetime: str 
@@ -19,7 +19,7 @@ class CommentsModel(db.Model):
 
     datetime = Column(Date, nullable=False)
 
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     this_user = relationship('UserModel', backref='this_comments')
 
