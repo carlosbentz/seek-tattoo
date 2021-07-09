@@ -1,5 +1,5 @@
 from app.configs.database import db 
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from dataclasses import dataclass
 
@@ -8,7 +8,7 @@ from dataclasses import dataclass
 class CommentsModel(db.Model):
 
     id: int 
-    datatime: str 
+    datetime: str 
     user_id: int 
 
     __tablename__ = 'comments'
@@ -17,11 +17,11 @@ class CommentsModel(db.Model):
 
     comment = Column(String, nullable=False)
 
-    datetime = Column(DateTime, nullable=False)
+    datetime = Column(Date, nullable=False)
 
     user_id = Column(Integer, ForeignKey('user.id'))
 
-    this_user = relationship('UserModel', backref='this_comments', secondary='ImageStyleCommentsModel')
+    this_user = relationship('UserModel', backref='this_comments')
 
 
 

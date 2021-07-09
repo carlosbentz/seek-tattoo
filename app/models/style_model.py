@@ -19,4 +19,4 @@ class StyleModel(db.Model):
 
     user_id = Column(Integer, ForeignKey('user.id'))
 
-    this_user = relationship('UserModel', backref='this_style', secondary='ImageStyleCommentsModel')
+    this_user = relationship('UserModel', backref='this_style')

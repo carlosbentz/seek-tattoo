@@ -1,5 +1,6 @@
 from app.configs.database import db 
 from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 from dataclasses import dataclass
 
 
@@ -22,6 +23,7 @@ class ImageStyleCommentsModel(db.Model):
 
     user_id = Column(Integer, ForeignKey('user.id'))
 
-    comment_id = Column(Integer, ForeignKey('comment.id'))
+    comment_id = Column(Integer, ForeignKey('comments.id'))
+    
     
     

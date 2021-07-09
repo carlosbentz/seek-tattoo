@@ -20,7 +20,6 @@ class AddressModel(db.Model):
   
     state = Column(String(50), nullable=False)
     
-
     user_id = Column(Integer, ForeignKey('user.id'), )
 
     this_user = relationship('UserModel', backref='this_address')
