@@ -11,7 +11,7 @@ class ImageModel(db.Model):
     img_url: str
     description: str
 
-    __tablename__ = 'image'
+    __tablename__ = 'images'
 
     id = Column(Integer, primary_key=True)
 

@@ -11,12 +11,12 @@ class StyleModel(db.Model):
     style_name: str 
     user_id: int 
 
-    __tablename__ = 'style'
+    __tablename__ = 'styles'
 
     id = Column(Integer, primary_key=True)
 
     style_name = Column(String, nullable=False, unique=True)
 
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
 
     this_user = relationship('UserModel', backref='this_style')
