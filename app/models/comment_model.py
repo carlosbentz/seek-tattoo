@@ -10,6 +10,7 @@ class CommentModel(db.Model):
     id: int 
     datetime: str 
     user_id: int 
+    image_id: int
 
     __tablename__ = 'comments'
 
@@ -21,7 +22,9 @@ class CommentModel(db.Model):
 
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    this_user = relationship('UserModel', backref='this_comments')
+    image_id = Column(Integer, ForeignKey('images.id'), nullable=False)
 
+    this_user = relationship('UserModel', backref='this_comments')
+    
 
 

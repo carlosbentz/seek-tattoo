@@ -9,14 +9,14 @@ class StyleModel(db.Model):
 
     id: int 
     style_name: str 
-    user_id: int 
+    # user_id: int 
 
     __tablename__ = 'styles'
 
     id = Column(Integer, primary_key=True)
 
-    style_name = Column(String, nullable=False, unique=True)
+    style_name = Column(String(50), nullable=False, unique=True)
 
-    user_id = Column(Integer, ForeignKey('users.id'))
+    # user_id = Column(Integer, ForeignKey('users.id'))
 
-    this_user = relationship('UserModel', backref='this_style')
+    # this_user = relationship('UserModel', backref='this_style')
