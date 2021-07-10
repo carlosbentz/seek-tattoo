@@ -16,10 +16,10 @@ class AddressModel(db.Model):
 
     id = Column(Integer, primary_key=True)
 
-    city = Column(String(50), nullable=False)
+    city = Column(String(100), nullable=False)
   
-    state = Column(String(50), nullable=False)
+    state = Column(String(2), nullable=False)
     
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     this_user = relationship('UserModel', backref='this_address')

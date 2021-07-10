@@ -7,15 +7,16 @@ from dataclasses import dataclass
 class DescriptionModel(db.Model):
 
     id: int 
+    experience: int
     trait: str 
-    paints: str  
+    paint: str  
 
     __tablename__ = 'descriptions'
 
     id = Column(Integer, primary_key=True)
 
-    experience = Column(String, nullable=False)
+    experience = Column(Integer, nullable=False)
 
     trait = Column(String(50), nullable=False)
 
-    paints = Column(String(100), nullable=False)
+    paint = Column(String(100), nullable=False)
