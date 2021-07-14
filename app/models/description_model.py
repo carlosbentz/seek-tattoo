@@ -9,7 +9,8 @@ class DescriptionModel(db.Model):
     id: int 
     experience: int
     trait: str 
-    paint: str  
+    paint: str
+    studio_name: str
 
     __tablename__ = 'descriptions'
 
@@ -20,5 +21,7 @@ class DescriptionModel(db.Model):
     trait = Column(String(50), nullable=False)
 
     paint = Column(String(100), nullable=False)
+
+    studio_name = Column(String(100))
 
     description = Column(String)
