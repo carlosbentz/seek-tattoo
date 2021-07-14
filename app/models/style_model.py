@@ -1,6 +1,5 @@
 from app.configs.database import db 
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String
 from dataclasses import dataclass
 
 
@@ -9,14 +8,9 @@ class StyleModel(db.Model):
 
     id: int 
     style_name: str 
-    # user_id: int 
 
     __tablename__ = 'styles'
 
     id = Column(Integer, primary_key=True)
 
     style_name = Column(String(50), nullable=False, unique=True)
-
-    # user_id = Column(Integer, ForeignKey('users.id'))
-
-    # this_user = relationship('UserModel', backref='this_style')

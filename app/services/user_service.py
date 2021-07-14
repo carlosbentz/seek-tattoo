@@ -1,11 +1,25 @@
 from app.models.user_model import UserModel
 
 from http import HTTPStatus
-from flask import request
+from flask import current_app, request
 
-from app import db
+def delete(user_id: int):
+
+    session = current_app.db.session
+
+    found_user = UserModel.query.get(user_id)
+
+    if not found_user:
+        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
+
+    session.delete(found_user)
+    session.commit()
+
+    return {}, HTTPStatus.NO_CONTENT
 
 def update(user_id: int):
+
+    session = current_app.db.session
 
     data = request.get_json()
 
@@ -17,8 +31,8 @@ def update(user_id: int):
     for key, value in data.items():
         setattr(found_user, key, value)
 
-    db.session.add(found_user)
-    db.session.commit()
+    session.add(found_user)
+    session.commit()
 
     return {
         "id": found_user.id,
@@ -28,3 +42,4 @@ def update(user_id: int):
         "is_artist": found_user.is_artist,
         "description_id": found_user.description_id,
     }, HTTPStatus.OK
+
