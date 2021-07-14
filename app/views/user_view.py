@@ -8,7 +8,7 @@ from http import HTTPStatus
 bp = Blueprint('bp_user', __name__)
 
 @bp.route('/user/<int:user_id>', methods=['DELETE'])
-def update_user(user_id: int):
+def delete_user(user_id: int):
 
     try:
         return delete(user_id), HTTPStatus.OK
@@ -18,6 +18,13 @@ def update_user(user_id: int):
 
     except MissingKeyError as e:
         return e.message
+
+"""
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "user_id" of relation "addresses" violates not-null constraint
+DETAIL:  Failing row contains (1, Curitiba, PR, null).
+Viola as regras
+"""
+
 
 @bp.route('/user/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):

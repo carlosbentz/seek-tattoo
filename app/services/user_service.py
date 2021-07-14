@@ -1,7 +1,7 @@
 from app.models.user_model import UserModel
 
 from http import HTTPStatus
-from flask import current_app, request
+from flask import current_app, request, jsonify
 
 def delete(user_id: int):
 
@@ -34,12 +34,13 @@ def update(user_id: int):
     session.add(found_user)
     session.commit()
 
-    return {
+    output =  {
         "id": found_user.id,
         "name": found_user.name,
         "email": found_user.email,
         "password_hash": found_user.password_hash,
         "is_artist": found_user.is_artist,
         "description_id": found_user.description_id,
-    }, HTTPStatus.OK
+    }
 
+    return jsonify(output)
