@@ -1,7 +1,7 @@
 from flask import Flask
 from environs import Env
 
-from app.configs import database, migrations, commands
+from app.configs import database, migrations, commands, jwt
 from app import views
 
 env = Env()
@@ -18,6 +18,7 @@ def create_app():
 
     database.init_app(app)
     migrations.init_app(app)
+    jwt.init_app(app)
     views.init_app(app)
     commands.init_app(app)
 
