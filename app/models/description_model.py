@@ -20,3 +20,5 @@ class DescriptionModel(db.Model):
     trait = Column(String(50), nullable=False)
 
     paint = Column(String(100), nullable=False)
+
+    description = Column(String)

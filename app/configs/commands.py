@@ -28,13 +28,16 @@ def cli_image_url(app: Flask):
 
         session.add(image_url)
         session.commit()
+
         echo(f"Image created, link: {img_url}")
 
 
     @cli_image_url_group.command("print")
     def to_print():
         image_urls = ImageModel.query.all()
-        [echo(f"Link: {img_url.img_url}, Description: {img_url.description}") for img_url in image_urls]
+        
+        # [echo(f"Link: {img_url.img_url}, Description: {img_url.description}") for img_url in image_urls]
+        echo(image_urls[0].this_style)
 
     app.cli.add_command(cli_image_url_group)
 
