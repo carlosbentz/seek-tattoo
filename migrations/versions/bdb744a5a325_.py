@@ -1,8 +1,8 @@
-"""Updated all tables due to schema change
+"""empty message
 
-Revision ID: 83463de37b8e
+Revision ID: bdb744a5a325
 Revises: 
-Create Date: 2021-07-09 20:14:15.162283
+Create Date: 2021-07-14 09:49:58.657151
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '83463de37b8e'
+revision = 'bdb744a5a325'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,7 @@ def upgrade():
     sa.Column('experience', sa.Integer(), nullable=False),
     sa.Column('trait', sa.String(length=50), nullable=False),
     sa.Column('paint', sa.String(length=100), nullable=False),
+    sa.Column('description', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('styles',

@@ -26,7 +26,7 @@
             "description_id": <description_id>: int,
             "id": <id>: int
         },
-        "token": <token>
+
     }
 
     HTTP Status: 201 CREATED
