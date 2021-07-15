@@ -26,7 +26,7 @@ class UserModel(db.Model):
 
     description_id = Column(Integer, ForeignKey('descriptions.id'))
 
-    this_description = relationship('DescriptionModel', backref=backref('this_user', uselist=False), uselist=False)
+    this_description = relationship('DescriptionModel', cascade="all, delete", backref=backref('this_user', uselist=False), uselist=False)
 
     @property
     def password(self):
