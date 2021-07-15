@@ -1,25 +1,11 @@
 from app.models.user_model import UserModel
 
 from http import HTTPStatus
-from flask import current_app, request, jsonify
+from flask import request
 
-def delete(user_id: int):
-
-    session = current_app.db.session
-
-    found_user = UserModel.query.get(user_id)
-
-    if not found_user:
-        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
-
-    session.delete(found_user)
-    session.commit()
-
-    return {}
+from app import db
 
 def update(user_id: int):
-
-    session = current_app.db.session
 
     data = request.get_json()
 
@@ -31,16 +17,14 @@ def update(user_id: int):
     for key, value in data.items():
         setattr(found_user, key, value)
 
-    session.add(found_user)
-    session.commit()
+    db.session.add(found_user)
+    db.session.commit()
 
-    output =  {
+    return {
         "id": found_user.id,
         "name": found_user.name,
         "email": found_user.email,
         "password_hash": found_user.password_hash,
         "is_artist": found_user.is_artist,
         "description_id": found_user.description_id,
-    }
-
-    return jsonify(output)
+    }, HTTPStatus.OK

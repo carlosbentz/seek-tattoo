@@ -20,8 +20,11 @@ class CommentModel(db.Model):
 
     datetime = Column(Date, nullable=False)
 
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    image_id = Column(Integer, ForeignKey('images.id'))
+    image_id = Column(Integer, ForeignKey('images.id'), nullable=False)
 
-    this_user = relationship('UserModel', cascade="all, delete", backref='this_comments')
+    this_user = relationship('UserModel', backref='this_comments')
+    
+
+

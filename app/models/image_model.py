@@ -21,8 +21,8 @@ class ImageModel(db.Model):
 
     description = Column(String(200), nullable=False)
 
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    this_style = relationship('StyleModel', cascade="all, delete", backref='this_images', secondary="image_styles", uselist=False)
+    this_style = relationship('StyleModel', backref='this_images', secondary="image_styles", uselist=False)
 
-    this_style = relationship('CommentModel', cascade="all, delete", backref=backref('this_image', uselist=False))
+    this_style = relationship('CommentModel', backref=backref('this_image', uselist=False))

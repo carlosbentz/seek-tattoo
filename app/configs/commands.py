@@ -51,14 +51,13 @@ def cli_description(app: Flask):
     @argument("experience")
     @argument("trait")
     @argument("paint")
-    @argument("studio_name")
-    def create(experience, trait, paint, studio_name):
-        description = DescriptionModel(experience=experience, trait=trait, paint=paint, studio_name=studio_name)
+    def create(experience, trait, paint):
+        description = DescriptionModel(experience=experience, trait=trait, paint=paint)
 
         session.add(description)
         session.commit()
         echo(
-            f"Description created, Experience: {description.experience}, Trait: {description.trait}, Paint: {description.paint}, Studio: {description.studio_name}"
+            f"Description created, Experience: {description.experience}, Trait: {description.trait}, Paint: {description.paint}"
             )
 
     
@@ -67,7 +66,7 @@ def cli_description(app: Flask):
         descriptions = DescriptionModel.query.all()
         [
             echo(
-                f"Experience: {description.experience}, Trait: {description.trait}, Paint: {description.paint}, Studio: {description.studio_name}"
+                f"Experience: {description.experience}, Trait: {description.trait}, Paint: {description.paint}"
                 ) for description in descriptions
         ]
 

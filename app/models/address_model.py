@@ -1,5 +1,5 @@
 from app.configs.database import db
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from dataclasses import dataclass
 
@@ -20,6 +20,6 @@ class AddressModel(db.Model):
   
     state = Column(String(2), nullable=False)
     
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    this_user = relationship('UserModel', cascade="all, delete", backref='this_address')
+    this_user = relationship('UserModel', backref='this_address')

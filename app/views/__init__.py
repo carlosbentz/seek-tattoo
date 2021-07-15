@@ -12,8 +12,3 @@ def init_app(app: Flask):
     from .login_view import bp as bp_login
 
     app.register_blueprint(bp_login)
-
-    from .user_view import bp as bp_user
-
-    app.register_blueprint(bp_user)
-
