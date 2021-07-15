@@ -15,7 +15,7 @@ def delete(user_id: int):
     session.delete(found_user)
     session.commit()
 
-    return {}, HTTPStatus.NO_CONTENT
+    return {}
 
 def update(user_id: int):
 
