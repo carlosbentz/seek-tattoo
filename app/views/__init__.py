@@ -1,9 +1,6 @@
 from flask import Flask
 
 def init_app(app: Flask):
-    from .teste_view import bp as bp_teste
-
-    app.register_blueprint(bp_teste)
 
     from .signup_view import bp as bp_signup
 
@@ -17,7 +14,19 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_user)
 
-    from .description_view import bp as bp_description
+    from .comment_view import bp as bp_comment
+    
+    app.register_blueprint(bp_comment)
+    
+    from .artist_view import bp as bp_artist
 
-    app.register_blueprint(bp_description)
+    app.register_blueprint(bp_artist)
+
+    from .client_view import bp as bp_client
+
+    app.register_blueprint(bp_client)
+
+    from .address_view import bp as bp_address
+
+    app.register_blueprint(bp_address)
 
