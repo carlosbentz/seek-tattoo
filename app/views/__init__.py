@@ -25,3 +25,7 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_client)
 
+    from .address_view import bp as bp_address
+
+    app.register_blueprint(bp_address)
+
