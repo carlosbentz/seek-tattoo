@@ -14,6 +14,17 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_user)
 
+<<<<<<< HEAD
     from .comment_view import bp as bp_comment
     
     app.register_blueprint(bp_comment)
+=======
+    from .artist_view import bp as bp_artist
+
+    app.register_blueprint(bp_artist)
+
+    from .client_view import bp as bp_client
+
+    app.register_blueprint(bp_client)
+
+>>>>>>> b54020e923b6c0449fdaa15dd8731ce26125e021
