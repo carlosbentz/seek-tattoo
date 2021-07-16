@@ -1,5 +1,4 @@
 from flask import Blueprint
-from app import exc
 from app.models import UserModel
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.user_service import delete, update

@@ -1,5 +1,10 @@
 from app.models.user_model import UserModel
 
+from app.exc.missing_key import MissingKeyError
+from app.exc.required_key import RequiredKeyError
+
+from app.services.helper_service import verify_required_key, verify_missing_key
+
 from http import HTTPStatus
 from flask import current_app, request, jsonify
 
@@ -19,9 +24,17 @@ def delete(user_id: int):
 
 def update(user_id: int):
 
+    required_keys = ["name", "email", "password_hash"]
+
     session = current_app.db.session
 
     data = request.get_json()
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
 
     found_user: UserModel = UserModel.query.get(user_id)
 
