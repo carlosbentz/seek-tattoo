@@ -25,7 +25,7 @@ def get_artist_id(artist_id: int):
         if not artist:
             raise ValueError
 
-        return jsonify(artist)
+        return jsonify(artist), HTTPStatus.OK
     
     except ValueError as _:
         return {"Error": "Invalid artist"}, HTTPStatus.NOT_FOUND
