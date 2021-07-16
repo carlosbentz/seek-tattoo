@@ -1,5 +1,13 @@
 # SEEK TATTO API
 
+
+
+Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
+
+`Authorization: Bearer {token}`
+
+
+
 ## Signup
 
 ### Request
@@ -45,14 +53,7 @@
 ### Response
 
     {
-        "User": {
-            "name": <name>: str,
-            "email": <email>: str,
-            "is_artist": <is_artist>: Boolean,
-            "description_id": <description_id>: int,
-            "id": <id>: int
-        },
-        "token": <token>
+        "message": <token> 
     }
 
     HTTP Status: 200 OK
@@ -216,7 +217,6 @@ Para criar um endereço, o usuário deve ser do tipo artista.
     {
         "city: <city>: str,
         "state": <state>: str,
-        "user_id": <user_id>: int
     }
 
 ### Response
@@ -404,8 +404,7 @@ Para criar um endereço, o usuário deve ser do tipo artista.
 
     {
         "img_url": <img_url>: str,
-        "description": <description>: str,
-        "user_id": <user_id>: int
+        "description": <description>: str
     }
 
 ### Response
@@ -596,11 +595,9 @@ Para criar um endereço, o usuário deve ser do tipo artista.
 
 `POST /user/artist/<user_id>/image/<image_id>/comment`
 
-`O User id na requisição refere-se ao usuário que criará o comentário.`
 
     {
         "comment": <comment>: str,
-        "user_id": <user_id>: int
     }
 
 ### Response
@@ -649,8 +646,6 @@ Para criar um endereço, o usuário deve ser do tipo artista.
 
     {
         "comment": <comment>: str,
-        "user_id": <user_id>: int
-
     }
 
 ### Response
