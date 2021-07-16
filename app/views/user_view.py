@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from app.models import UserModel
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.user_service import delete, update
@@ -19,7 +19,7 @@ def get_users():
 
     query = users.query.all()
 
-    return {
+    return jsonify({
         "users": [
             {
                 "id": user.id, 
@@ -31,6 +31,25 @@ def get_users():
             }
             for user in query
         ]
+    }), HTTPStatus.OK
+
+
+@bp.get("/<int:user_id>")
+def get_user_by_id(user_id: int):
+    users = UserModel()
+    
+    query = users.query.get(user_id)
+
+    return {
+        "users":
+            {
+                "id": query.id, 
+                "name": query.name, 
+                "e-mail": query.email, 
+                "is_artist": query.is_artist,
+                "description_id": query.description_id,
+
+            }
     }, HTTPStatus.OK
 
 
