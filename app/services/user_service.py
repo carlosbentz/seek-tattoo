@@ -44,3 +44,20 @@ def update(user_id: int):
     }
 
     return jsonify(output)
+
+
+def update_description(user_id: int, description_id: int) -> None:
+    
+    session = current_app.db.session
+
+    found_user: UserModel = UserModel.query.get(user_id)
+
+    if not found_user:
+        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
+
+    found_user.description_id = description_id
+
+    session.add(found_user)
+    session.commit()
+
+
