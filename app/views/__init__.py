@@ -17,3 +17,11 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_user)
 
+    from .artist_view import bp as bp_artist
+
+    app.register_blueprint(bp_artist)
+
+    from .client_view import bp as bp_client
+
+    app.register_blueprint(bp_client)
+
