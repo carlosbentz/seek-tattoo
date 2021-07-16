@@ -1,12 +1,8 @@
 # SEEK TATTO API
 
-
-
 Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
 
 `Authorization: Bearer {token}`
-
-
 
 ## Signup
 
@@ -27,14 +23,7 @@ Rotas que necessitam de autorização deve ser informado no cabeçalho da requis
 ### Response
 
     {
-        "User": {
-            "name": <name>: str,
-            "email": <email>: str,
-            "is_artist": <is_artist>: Boolean,
-            "description_id": <description_id>: int,
-            "id": <id>: int
-        },
-
+        "token": <token>
     }
 
     HTTP Status: 201 CREATED
@@ -53,7 +42,7 @@ Rotas que necessitam de autorização deve ser informado no cabeçalho da requis
 ### Response
 
     {
-        "message": <token> 
+        "message": <token>
     }
 
     HTTP Status: 200 OK
@@ -594,7 +583,6 @@ Para criar um endereço, o usuário deve ser do tipo artista.
 ### Request
 
 `POST /user/artist/<user_id>/image/<image_id>/comment`
-
 
     {
         "comment": <comment>: str,
