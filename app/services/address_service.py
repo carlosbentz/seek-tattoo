@@ -3,12 +3,25 @@ from app.models import AddressModel
 from http import HTTPStatus
 from flask import current_app, request, jsonify
 
+from app.services.helper_service import verify_required_key, verify_missing_key, verify_value_option
+
+from app.exc.missing_key import MissingKeyError
+from app.exc.required_key import RequiredKeyError
+
 
 def update_address(address_id: int):
+
+    required_keys = ["city", "style"]
 
     session = current_app.db.session
 
     data = request.get_json()
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
 
     found_address: AddressModel = AddressModel.query.get(address_id)
 

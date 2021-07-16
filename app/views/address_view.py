@@ -1,4 +1,4 @@
-from app.services.address_view import update_address
+from app.services.address_service import update_address
 from flask import Blueprint, request, current_app, jsonify
 from app.models.address_model import AddressModel
 from app.exc import RequiredKeyError, MissingKeyError
