@@ -14,12 +14,12 @@ def create_adress():
 
     data = request.get_json()
     
-    adress = AddressModel(**data)
+    address = AddressModel(**data)
 
-    session.add(adress)
+    session.add(address)
     session.commit()
 
-    return jsonify(adress), HTTPStatus.CREATED
+    return jsonify(address), HTTPStatus.CREATED
 
 
 @bp.patch("/<user_id")
