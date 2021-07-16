@@ -67,6 +67,27 @@ Rotas que necessitam de autorização deve ser informado no cabeçalho da requis
 ### Response
 
     {
+        "User": {
+            "name": <name>: str,
+            "email": <email>: str,
+            "is_artist": True: Boolean,
+            "description_id": <description_id>: int,
+            "id": <id>: int,
+            "address": "/user/artist/<user_id>/address",
+            "description": "user/artist/<user_id>/description",
+            "images": "user/artist/<user_id>/image"
+        }
+    }
+
+    HTTP Status: 200 OK
+
+### Request
+
+`GET user/artist/<user_id>`
+
+### Response
+
+    {
         "Users": [
             "User": {
                 "name": <name>: str,
@@ -79,27 +100,6 @@ Rotas que necessitam de autorização deve ser informado no cabeçalho da requis
                 "images": "user/artist/<user_id>/image"
             },
         ]
-    }
-
-    HTTP Status: 200 OK
-
-### Request
-
-`GET user/artist/<user_id>`
-
-### Response
-
-    {
-        "User": {
-            "name": <name>: str,
-            "email": <email>: str,
-            "is_artist": True: Boolean,
-            "description_id": <description_id>: int,
-            "id": <id>: int,
-            "address": "/user/artist/<user_id>/address",
-            "description": "user/artist/<user_id>/description",
-            "images": "user/artist/<user_id>/image"
-        }
     }
 
     HTTP Status: 200 OK
