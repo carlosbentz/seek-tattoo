@@ -23,3 +23,20 @@ def get(image_id):
     }
 
     return jsonify(comments)
+
+
+def patch(new_comment, comment_id, current_user_id):
+    session = current_app.db.session
+
+    comment = CommentModel.query.get(comment_id)
+
+    if not comment.user_id == current_user_id:
+        return {"error": "You're not allowed to modify other users comments"}
+
+    comment.comment = new_comment
+
+    session.add(comment)
+    session.commit()
+
+
+    return jsonify(comment)

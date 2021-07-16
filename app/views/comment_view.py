@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from http import HTTPStatus
-from app.services.comment_service import create, get
+from app.services.comment_service import create, get, patch
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 
@@ -24,3 +24,14 @@ def get_comments(user_id, image_id):
     
 
     return comments, HTTPStatus.OK
+
+
+@bp.patch("/artist/<user_id>/image/<image_id>/comment/<comment_id>")
+@jwt_required()
+def patch_comments(user_id, image_id, comment_id):
+    current_user = get_jwt_identity()
+    data = request.get_json()
+
+    new_comment = patch(data["comment"], comment_id, current_user["id"])
+
+    return new_comment, HTTPStatus.OK
