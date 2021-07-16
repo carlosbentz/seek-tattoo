@@ -19,14 +19,7 @@
 ### Response
 
     {
-        "User": {
-            "name": <name>: str,
-            "email": <email>: str,
-            "is_artist": <is_artist>: Boolean,
-            "description_id": <description_id>: int,
-            "id": <id>: int
-        },
-
+        "token": <token>
     }
 
     HTTP Status: 201 CREATED
@@ -45,13 +38,6 @@
 ### Response
 
     {
-        "User": {
-            "name": <name>: str,
-            "email": <email>: str,
-            "is_artist": <is_artist>: Boolean,
-            "description_id": <description_id>: int,
-            "id": <id>: int
-        },
         "token": <token>
     }
 

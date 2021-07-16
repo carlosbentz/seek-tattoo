@@ -1,9 +1,6 @@
 from flask import Flask
 
 def init_app(app: Flask):
-    from .teste_view import bp as bp_teste
-
-    app.register_blueprint(bp_teste)
 
     from .signup_view import bp as bp_signup
 
@@ -17,3 +14,6 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_user)
 
+    from .comment_view import bp as bp_comment
+    
+    app.register_blueprint(bp_comment)
