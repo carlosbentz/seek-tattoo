@@ -30,3 +30,7 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_address)
 
+    from .image_view import bp as bp_image
+
+    app.register_blueprint(bp_image)
+
