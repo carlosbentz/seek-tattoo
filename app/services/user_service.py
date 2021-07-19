@@ -24,17 +24,9 @@ def delete(user_id: int):
 
 def update(user_id: int):
 
-    required_keys = ["name", "email", "password_hash"]
-
     session = current_app.db.session
 
     data = request.get_json()
-
-    if verify_missing_key(data, required_keys):
-        raise MissingKeyError(data, required_keys)
-
-    if verify_required_key(data, required_keys):
-        raise RequiredKeyError(data, required_keys)
 
     found_user: UserModel = UserModel.query.get(user_id)
 
@@ -57,3 +49,20 @@ def update(user_id: int):
     }
 
     return jsonify(output)
+
+
+def update_description(user_id: int, description_id: int) -> None:
+    
+    session = current_app.db.session
+
+    found_user: UserModel = UserModel.query.get(user_id)
+
+    if not found_user:
+        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
+
+    found_user.description_id = description_id
+
+    session.add(found_user)
+    session.commit()
+
+

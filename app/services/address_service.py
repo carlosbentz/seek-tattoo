@@ -9,24 +9,21 @@ from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
 
 
-def update_address(address_id: int):
+def update_address(user_id: int):
 
-    required_keys = ["city", "style"]
-
-    session = current_app.db.session
+    # required_keys = ["city", "state"]
 
     data = request.get_json()
 
-    if verify_missing_key(data, required_keys):
-        raise MissingKeyError(data, required_keys)
+    city = data.get("city")
+    state = data.get("state")
 
-    if verify_required_key(data, required_keys):
-        raise RequiredKeyError(data, required_keys)
+    session = current_app.db.session
 
-    found_address: AddressModel = AddressModel.query.get(address_id)
+    found_address: AddressModel = AddressModel.query.filter_by(user_id=user_id).first()
 
     if not found_address:
-        return {"status": "Address NOT FOUND"}, HTTPStatus.NOT_FOUND
+        return {"status": "Address NOT FOUND"}
 
     for key, value in data.items():
         setattr(found_address, key, value)

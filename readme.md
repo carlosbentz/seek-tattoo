@@ -1,5 +1,74 @@
 # SEEK TATTO API
 
+Encontre o artista ideal - 
+Essa API tem a proposta de oferecer um serviço de busca (atraves de filtros ou não) por tatuadores que fazem parte de nossa rede de cadastro.
+
+# REGRAS DE NEGÓCIO:
+
+1- CADASTRO:
+
+	  1.1 - Para poder usar os serviços dessa API é necessário fazer um cadastro.
+
+	  1.2 - Todo cadastro se inicia com campos básicos: nome, e-mail, senha, e se o usuario é um artista.
+
+	  1.3 - O e-mail é usado como login.
+
+	  1.4 - Se o cadastro for feito no formato cliente, o usuário ja esta habilitado a fazer suas pesquisas.
+
+	  1.5 - Se o cadastro for feito no formato de artista, o usuário é direcionado a preencher outro cadastro com suas especificações de artista: tempo de experiência, nome do estúdio, traço, tinta, e descrição.
+
+	  1.6 - Os usuários/artista precisam indicar em qual estado (indicado pela sigla) e cidade se encontram, para facilitar a busca de um artista que esta próximo ao cliente.
+
+
+2- FOTOS / COMENTARIOS / ESTILOS:
+
+	  2.1 - Para postar uma foto ou comentário é necessário estar logado em sua respectiva conta.
+
+	  2.2 - A postagem de imagens é feita, apenas, pelo usuário que tem uma conta no formato artista.
+
+	  2.3 - Ao postar uma imagem, o usuário/artista irá selecionar tags que indincam o estilo da arte na imagem em questão, e adicionar uma descrição.
+
+	  2.4 - Os comentários são feitos, apenas, pelo usuário que tem uma conta no formato de cliente. 
+
+	  2.4 - Os comentários são feitos apenas nas imagens. O usuário/cliente pode falar sobre o trabalho em questão ou descrever sua experiência ao ser tatuado pelo usuário/artista.
+
+	  2.5 - apenas o usuário/cliente que fez o comentário pode apagar ou editar o comentário feito
+
+	  2.6 - Comentários e fotos são publicos, e todos os usuários podem vizualizar.
+
+
+3- FILTROS E PESQUISA:
+
+	  3.1 - Para fazer uma pesquisa é necessario estar logado em sua respectiva conta.
+
+	  3.2 - Os filtros funcionam como uma ferramenta para que o usuário/cliente possa achar um usuario/artista que trabalhe com seus estilos de preferência, mesma cidade/estado.
+ 
+	  3.3 - O usuario/cliente pode fazer sua pesquisa selecionando as tags de estilo desejadas, uma cidade/estado, ou tambem inserindo em um campo de busca um nome de estudio, nome do usuário/artista.
+
+	  3.4 - O usuario/cliente pode navegar pelas imagens postadas, organizadas pela data de postagem (se iniciando pelas imagens mais recentes), sem utilizar filtros.
+
+	!!!!!!  3.5 - Os perfis de artistas aos quais o cliente se idenfica podem ser salvos como artistas favoritos
+
+
+4- ATUALIZAÇÃO DE DADOS:
+
+	  4.1 - Para fazer alguma alteração em seu cadastro é necesario estar logado em sua respectiva conta.
+
+	!!!!!!  4.2 - Para atualizar o e-mail do cadastro é necessario confirmar a mudança atraves de um link enviado ao novo e-mail.
+
+	  4.3 - Para atualizar a senha é necessario indicar a senha antiga primeiro, depois sua nova senha.
+
+	!!!!!!  4.4 - Caso o usuário esquecer a senha será enviado um link atraves do e-mail de cadastro, no qual o usuario poderá atualiza-la
+
+
+5- DELETE DO USUARIO:
+
+	  5.1 - Para apagar um cadastro é necesario estar logado em sua respectiva conta.
+
+	  5.2 - A conta pode ser deletada apenas pelo usuário ao qual essa conta pertence.
+
+
+
 Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
 
 `Authorization: Bearer {token}`
