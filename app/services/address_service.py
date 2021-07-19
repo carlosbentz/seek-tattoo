@@ -11,7 +11,7 @@ from app.exc.required_key import RequiredKeyError
 
 def update_address(user_id: int):
 
-    # required_keys = ["city", "state"]
+    required_keys = ["city", "state"]
 
     data = request.get_json()
 
