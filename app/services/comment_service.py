@@ -40,3 +40,17 @@ def patch(new_comment, comment_id, current_user_id):
 
 
     return jsonify(comment)
+
+
+def delete(comment_id, current_user_id):
+    session = current_app.db.session
+
+    comment = CommentModel.query.get(comment_id)
+
+    if not comment.user_id == current_user_id:
+        return {"error": "You're not allowed to delete other users comments"}
+
+    session.delete(comment)
+    session.commit()
+
+    return ""

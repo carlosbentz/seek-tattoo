@@ -25,4 +25,4 @@ class ImageModel(db.Model):
 
     this_style = relationship('StyleModel', cascade="all, delete", backref='this_images', secondary="image_styles", uselist=False)
 
-    this_style = relationship('CommentModel', cascade="all, delete", backref=backref('this_image', uselist=False))
+    this_comment = relationship('CommentModel', cascade="all, delete-orphan", backref=backref('this_image', uselist=False))
