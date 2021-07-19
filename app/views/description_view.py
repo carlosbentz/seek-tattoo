@@ -3,7 +3,7 @@ from app import exc
 from app.models import UserModel, DescriptionModel, AddressModel
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.user_service import delete, update, update_description
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 
 from http import HTTPStatus

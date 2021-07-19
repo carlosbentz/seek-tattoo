@@ -17,7 +17,7 @@ def init_app(app: Flask):
     from .comment_view import bp as bp_comment
     
     app.register_blueprint(bp_comment)
-    
+
     from .artist_view import bp as bp_artist
 
     app.register_blueprint(bp_artist)
@@ -30,3 +30,6 @@ def init_app(app: Flask):
 
     app.register_blueprint(bp_address)
 
+    from .description_view import bp as bp_description
+
+    app.register_blueprint(bp_description)
