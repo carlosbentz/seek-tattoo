@@ -1,6 +1,5 @@
 # SEEK TATTO API
 
-<<<<<<< HEAD
 Encontre o artista ideal - 
 Essa API tem a proposta de oferecer um serviço de busca (atraves de filtros ou não) por tatuadores que fazem parte de nossa rede de cadastro.
 
@@ -70,11 +69,9 @@ Essa API tem a proposta de oferecer um serviço de busca (atraves de filtros ou 
 
 
 
-=======
 Rotas que necessitam de autorização deve ser informado no cabeçalho da requisição o campo "Authorization", dessa forma:
 
 `Authorization: Bearer {token}`
->>>>>>> 32d17fffa3e9b8d0948e42479e05be5104f373f6
 
 ## Signup
 

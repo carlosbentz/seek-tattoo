@@ -27,7 +27,6 @@ def get_users():
                 "e-mail": user.email, 
                 "is_artist": user.is_artist,
                 "description_id": user.description_id,
-
             }
             for user in query
         ]
