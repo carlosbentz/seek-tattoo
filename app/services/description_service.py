@@ -11,10 +11,10 @@ def update_description(user_id: int):
 
     user = UserModel.query.get(user_id)
 
-    description_id = user.description_id
-    
+    if not user:
+        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
 
-    found_description = DescriptionModel.query.get(description_id)
+    found_description = DescriptionModel.query.get(user.description_id)
 
     for key, value in data.items():
         setattr(found_description, key, value)
@@ -26,21 +26,71 @@ def update_description(user_id: int):
 
 
 
-
-
-
-
-
 def update_description_id_in_user(user_id: int, description_id: int) -> None:
     
     session = current_app.db.session
 
-    found_user: UserModel = UserModel.query.get(user_id)
+    user = UserModel.query.get(user_id)
 
-    if not found_user:
+    if not user:
         return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
 
-    found_user.description_id = description_id
+    user.description_id = description_id
 
-    session.add(found_user)
+    session.add(user)
     session.commit()
+
+
+def update_is_artist(user_id) -> None:
+    session = current_app.db.session
+
+    user = UserModel.query.get(user_id)
+
+    if user.is_artist == True:
+        user.is_artist = False
+    if user.is_artist == False:
+        user.is_artist = True
+
+    session.add(user)
+    session.commit()
+
+
+def get(user_id):
+    user = UserModel.query.get(user_id)
+
+    description = DescriptionModel.query.get(user.description_id)
+
+    return jsonify(description)
+
+
+def post(user_id):
+    session =  current_app.db.session
+
+    data = request.get_json()
+
+    description = DescriptionModel(**data)
+
+    session.add(description)
+    session.commit()
+
+    update_description_id_in_user(user_id, description.id)
+    
+    return jsonify(description)
+
+
+def delete(user_id):
+    session = current_app.db.session
+
+    user = UserModel.query.get(user_id)
+
+    update_is_artist(user_id)
+
+    description = DescriptionModel.query.get(user.description_id)
+
+    if not description.id == user.description_id:
+        return {"error": "You're not allowed to delete other users descriptions"}
+
+    session.delete(description)
+    session.commit()
+
+    return ""

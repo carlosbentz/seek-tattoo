@@ -1,9 +1,8 @@
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint
 from app import exc
-from app.models import DescriptionModel
 from app.exc import RequiredKeyError, MissingKeyError
-from app.services.description_service import update_description_id_in_user, update_description
-from flask_jwt_extended import jwt_required
+from app.services.description_service import post, delete, update_description, post, get
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import ipdb
 
 from http import HTTPStatus
@@ -13,26 +12,25 @@ bp = Blueprint('bp_description', __name__, url_prefix="/user")
 
 
 @bp.post("/artist/<user_id>/description")
-def create_artist(user_id: int):
+@jwt_required()
+def create_description(user_id: int):
+    current_user = get_jwt_identity()
 
-    session =  current_app.db.session
-    data = request.get_json()
+    if current_user["is_artist"] == False:
+        return {"status": "NOT artist"}, HTTPStatus.NOT_FOUND
 
-    description = DescriptionModel(**data)
+    return post(user_id),  HTTPStatus.CREATED
 
-    session.add(description)
-    session.commit()
 
-    update_description_id_in_user(user_id, description.id)
+@bp.get("/artist/<user_id>/description")
+def get_description(user_id: int):
     
-    return jsonify(description),  HTTPStatus.CREATED
-
+    return get(user_id), HTTPStatus.OK
 
 
 @bp.patch("/artist/<user_id>/description")
 @jwt_required()
 def patch_description(user_id: int):
-
     try:
         return update_description(user_id), HTTPStatus.OK
     
@@ -42,4 +40,9 @@ def patch_description(user_id: int):
     except MissingKeyError as e:
         return e.message
 
-# DELETE deleta o cadastro de artista e muda na tabela user is_artist=FALSE
+
+@bp.delete("/artist/<user_id>/description")
+@jwt_required()
+def delete_description(user_id: int):
+  
+    return delete(user_id), HTTPStatus.NO_CONTENT
