@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from http import HTTPStatus
-from app.services.comment_service import create, get, patch
+from app.services.comment_service import create, get, patch, delete
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 
@@ -35,3 +35,13 @@ def patch_comments(user_id, image_id, comment_id):
     new_comment = patch(data["comment"], comment_id, current_user["id"])
 
     return new_comment, HTTPStatus.OK
+
+
+@bp.delete("/artist/<user_id>/image/<image_id>/comment/<comment_id>")
+@jwt_required()
+def delete_comments(user_id, image_id, comment_id):
+    current_user = get_jwt_identity()
+
+    new_comment = delete(comment_id, current_user["id"])
+
+    return new_comment, HTTPStatus.NO_CONTENT

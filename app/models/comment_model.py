@@ -1,6 +1,6 @@
 from app.configs.database import db 
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from dataclasses import dataclass
 
 
@@ -24,4 +24,4 @@ class CommentModel(db.Model):
 
     image_id = Column(Integer, ForeignKey('images.id'))
 
-    this_user = relationship('UserModel', cascade="all, delete", backref='this_comments')
+    this_user = relationship('UserModel', backref=backref('this_comments', cascade="all, delete-orphan"), uselist=False)
