@@ -3,7 +3,7 @@ from app.models import UserModel
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.user_service import delete, update
 
-from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask_jwt_extended import jwt_required
 
 
 from http import HTTPStatus
@@ -55,7 +55,7 @@ def get_user_by_id(user_id: int):
 @bp.route('/<int:user_id>', methods=['DELETE'])
 @jwt_required()
 def delete_user(user_id: int):
-    print(get_jwt_identity())
+
     return delete(user_id), HTTPStatus.OK
 
 
