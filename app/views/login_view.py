@@ -22,4 +22,3 @@ def login():
         return {"message": access_token}, HTTPStatus.OK
     else:
         return {"message": "Unauthorized"}, HTTPStatus.UNAUTHORIZED
-    

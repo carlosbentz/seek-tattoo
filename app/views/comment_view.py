@@ -13,6 +13,8 @@ def create_comment(user_id, image_id):
     current_user = get_jwt_identity()
     data = request.get_json()
 
+    print(current_user)
+    print(type(current_user))
     comment = create(data["comment"], current_user["id"], image_id)
 
     return comment, HTTPStatus.CREATED

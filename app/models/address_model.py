@@ -22,4 +22,4 @@ class AddressModel(db.Model):
     
     user_id = Column(Integer, ForeignKey('users.id'))
 
-    this_user = relationship('UserModel', cascade="all, delete", backref=backref('this_address', cascade="all, delete-orphan"))
+    this_user = relationship('UserModel', backref=backref('this_address', cascade="all, delete-orphan"))
