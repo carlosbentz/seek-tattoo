@@ -25,8 +25,17 @@ def delete(user_id: int):
 
 def get_images(user_id):
 
-    # user = UserModel.query.get(user_id)
+    images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
+    if not images_of_user:
+        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
 
-    images_of_user = ImageModel.query.get(user_id)
+    return jsonify(images_of_user)
+    
+def get_image_by_id(user_id):
+
+    images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
+    
+    if not images_of_user:
+        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
 
     return jsonify(images_of_user)
