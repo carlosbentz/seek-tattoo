@@ -47,6 +47,7 @@ def create(user_id):
 
     return jsonify(address)
 
+    session =  current_app.db.session
 
 def get_all():
     
