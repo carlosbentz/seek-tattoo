@@ -34,7 +34,6 @@ def get_all_address():
     return get_all(), HTTPStatus.OK
 
 
-
 @bp.patch("/artist/<user_id>/address")
 @jwt_required()
 def modify_address(user_id):
