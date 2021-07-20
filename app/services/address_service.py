@@ -65,7 +65,7 @@ def get_by_id(user_id: int):
 def delete(user_id):
     session = current_app.db.session
 
-    address = AddressModel.query.filter_by(user_id=user_id)
+    address = AddressModel.query.filter_by(user_id=user_id).first()
 
     session.delete(address)
     session.commit()

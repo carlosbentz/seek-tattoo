@@ -1,7 +1,7 @@
 from flask import Blueprint
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.address_service import update_address, delete, get_by_id, get_all, create
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, current_user, get_jwt_identity
 
 from http import HTTPStatus
 
@@ -52,6 +52,5 @@ def modify_address(user_id):
 @jwt_required()
 def delete_address(user_id: int):
     user = get_jwt_identity()
-    print(user)
 
     return delete(user_id), HTTPStatus.NO_CONTENT
