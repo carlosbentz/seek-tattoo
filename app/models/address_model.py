@@ -1,6 +1,6 @@
 from app.configs.database import db
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from dataclasses import dataclass
 
 
@@ -22,4 +22,4 @@ class AddressModel(db.Model):
     
     user_id = Column(Integer, ForeignKey('users.id'))
 
-    this_user = relationship('UserModel', cascade="all, delete", backref='this_address')
+    this_user = relationship('UserModel', cascade="all, delete", backref=backref('this_address', cascade="all, delete-orphan"))

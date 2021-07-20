@@ -1,36 +1,43 @@
-from app.services.address_service import update_address
-from flask import Blueprint, request, current_app, jsonify
-from app.models.address_model import AddressModel
+from flask import Blueprint
 from app.exc import RequiredKeyError, MissingKeyError
-from app.configs.database import db
-
-from flask_jwt_extended import get_jwt_identity, jwt_required
+from app.services.address_service import update_address, delete, get_by_id, get_all, create
+from flask_jwt_extended import jwt_required, current_user, get_jwt_identity
 
 from http import HTTPStatus
 
 
-bp = Blueprint('bp_address', __name__, url_prefix='/user')
+bp = Blueprint("address_bp", __name__, url_prefix="/user")
 
 
-@bp.post("/")
+@bp.post("/artist/<user_id>/address")
 @jwt_required()
-def create_address():
-    session =  current_app.db.session
+def create_address(user_id: int):
+    try:
+        return create(user_id), HTTPStatus.CREATED
 
-    data = request.get_json()
+    except RequiredKeyError as e:
+        return e.message
+
+    except MissingKeyError as e:
+        return e.message
+
+
+@bp.get("/artist/<user_id>/address")
+@jwt_required()
+def get_address(user_id: int):
+    return get_by_id(user_id), HTTPStatus.OK
+
+
+@bp.get("/artist/address")
+def get_all_address():
     
-    address = AddressModel(**data)
-
-    session.add(address)
-    session.commit()
-
-    return jsonify(address), HTTPStatus.CREATED
+    return get_all(), HTTPStatus.OK
 
 
-@bp.route("/artist/<user_id>/address", methods=["PATCH"])
+
+@bp.patch("/artist/<user_id>/address")
 @jwt_required()
 def modify_address(user_id):
-    
     try:
         return update_address(user_id), HTTPStatus.OK
     
@@ -39,3 +46,11 @@ def modify_address(user_id):
 
     except MissingKeyError as e:
         return e.message
+
+
+@bp.delete("/artist/<user_id>/address")
+@jwt_required()
+def delete_address(user_id: int):
+    user = get_jwt_identity()
+
+    return delete(user_id), HTTPStatus.NO_CONTENT
