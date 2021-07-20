@@ -1,12 +1,5 @@
 from app.models import AddressModel
-
-from http import HTTPStatus
 from flask import current_app, request, jsonify
-
-from app.services.helper_service import verify_required_key, verify_missing_key, verify_value_option
-
-from app.exc.missing_key import MissingKeyError
-from app.exc.required_key import RequiredKeyError
 
 
 def update_address(user_id: int):
@@ -40,15 +33,42 @@ def update_address(user_id: int):
     return jsonify(output)
 
 
-def create(user_id, data):
-
+def create(user_id):
     session =  current_app.db.session
 
-    
-    address = AddressModel(city=data["city"], state=data["state"], user_id=user_id)
+    data = request.get_json()
+
+    address = AddressModel(**data)
+
+    address.user_id = user_id
 
     session.add(address)
     session.commit()
 
+    return jsonify(address)
 
-    return address
+    session =  current_app.db.session
+
+def get_all():
+    
+    address = AddressModel.query.all()
+    
+    return jsonify(address)
+
+
+def get_by_id(user_id: int):
+
+    address = AddressModel.query.filter_by(user_id=user_id).first()
+
+    return jsonify(address)
+
+
+def delete(user_id):
+    session = current_app.db.session
+
+    address = AddressModel.query.filter_by(user_id=user_id).first()
+
+    session.delete(address)
+    session.commit()
+
+    return ""
