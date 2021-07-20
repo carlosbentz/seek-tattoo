@@ -33,19 +33,19 @@ def update_address(user_id: int):
     return jsonify(output)
 
 
-# def create(user_id):
-#     session =  current_app.db.session
+def create(user_id):
+    session =  current_app.db.session
 
-#     data = request.get_json()
+    data = request.get_json()
 
-#     address = AddressModel(**data)
+    address = AddressModel(**data)
 
-#     address.user_id = user_id
+    address.user_id = user_id
 
-#     session.add(address)
-#     session.commit()
+    session.add(address)
+    session.commit()
 
-#     return jsonify(address)
+    return jsonify(address)
 
 
 def get_all():
@@ -54,7 +54,8 @@ def get_all():
     
     return jsonify(address)
 
-def get(user_id):
+
+def get_by_id(user_id: int):
 
     address = AddressModel.query.filter_by(user_id=user_id).first()
 
