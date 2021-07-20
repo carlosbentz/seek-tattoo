@@ -40,9 +40,15 @@ def update_address(user_id: int):
     return jsonify(output)
 
 
-def create():
+def create(user_id, data):
+
+    session =  current_app.db.session
+
+    
+    address = AddressModel(city=data["city"], state=data["state"], user_id=user_id)
+
+    session.add(address)
+    session.commit()
 
 
-
-
-    return
+    return address
