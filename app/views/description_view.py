@@ -3,7 +3,6 @@ from app import exc
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.description_service import post, delete, update_description, post, get
 from flask_jwt_extended import jwt_required, get_jwt_identity
-import ipdb
 
 from http import HTTPStatus
 
