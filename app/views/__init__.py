@@ -33,3 +33,7 @@ def init_app(app: Flask):
     from .description_view import bp as bp_description
 
     app.register_blueprint(bp_description)
+
+    from .image_view import bp as bp_image
+
+    app.register_blueprint(bp_image)
