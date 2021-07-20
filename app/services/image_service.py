@@ -1,7 +1,7 @@
-from flask import current_app, request, jsonify
+from flask import current_app, jsonify
 from http import HTTPStatus
 
-from app.models import ImageModel
+from app.models import ImageModel, UserModel
 
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
@@ -22,3 +22,11 @@ def delete(user_id: int):
     session.commit()
 
     return {}
+
+def get_images(user_id):
+
+    # user = UserModel.query.get(user_id)
+
+    images_of_user = ImageModel.query.get(user_id)
+
+    return jsonify(images_of_user)
