@@ -1,4 +1,4 @@
-from app.services.address_service import update_address
+from app.services.address_service import update_address, create
 from flask import Blueprint, request, current_app, jsonify
 from app.models.address_model import AddressModel
 from app.exc import RequiredKeyError, MissingKeyError
@@ -12,17 +12,14 @@ from http import HTTPStatus
 bp = Blueprint('bp_address', __name__, url_prefix='/user')
 
 
-@bp.post("/")
+@bp.post("/artist/<user_id>/address")
 @jwt_required()
-def create_address():
-    session =  current_app.db.session
-
+def create_address(user_id):
+    current_user = get_jwt_identity()
     data = request.get_json()
-    
-    address = AddressModel(**data)
 
-    session.add(address)
-    session.commit()
+    address = create(current_user["id"], data)
+
 
     return jsonify(address), HTTPStatus.CREATED
 

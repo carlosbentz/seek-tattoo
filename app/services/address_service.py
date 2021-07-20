@@ -11,7 +11,7 @@ from app.exc.required_key import RequiredKeyError
 
 def update_address(user_id: int):
 
-    # required_keys = ["city", "state"]
+    required_keys = ["city", "state"]
 
     data = request.get_json()
 
@@ -38,3 +38,17 @@ def update_address(user_id: int):
     }
 
     return jsonify(output)
+
+
+def create(user_id, data):
+
+    session =  current_app.db.session
+
+    
+    address = AddressModel(city=data["city"], state=data["state"], user_id=user_id)
+
+    session.add(address)
+    session.commit()
+
+
+    return address
