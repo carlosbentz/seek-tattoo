@@ -27,11 +27,6 @@ def create(user_id):
     ), HTTPStatus.CREATED
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e44e7d86e0417c9fdbe63b2f123d4ebd0cefaf0d
 def delete(user_id: int):
 
     session = current_app.db.session
@@ -45,8 +40,6 @@ def delete(user_id: int):
     session.commit()
 
     return {}
-<<<<<<< HEAD
-=======
 
 
 def update(img_id: int):
@@ -91,4 +84,3 @@ def get_image_by_id(user_id):
         return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
 
     return jsonify(images_of_user)
->>>>>>> e44e7d86e0417c9fdbe63b2f123d4ebd0cefaf0d
