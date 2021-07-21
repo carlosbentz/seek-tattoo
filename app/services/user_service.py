@@ -8,6 +8,8 @@ from app.services.helper_service import verify_required_key, verify_missing_key
 from http import HTTPStatus
 from flask import current_app, request, jsonify
 
+from flask_jwt_extended import create_access_token
+
 def delete(user_id: int):
 
     session = current_app.db.session
@@ -57,3 +59,52 @@ def update(user_id: int):
     }
 
     return jsonify(output)
+
+
+def signup():
+
+    required_keys = ["name", "email", "password", "is_artist"]
+
+    session =  current_app.db.session
+
+    data = request.get_json()
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
+
+    password_to_hash = data.pop('password')
+
+    user = UserModel(**data)
+
+    user.password = password_to_hash
+
+    session.add(user)
+    session.commit()
+
+    return jsonify(user)
+
+def verify_login():
+
+    required_keys = ["email", "password"]
+
+    data = request.get_json()
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
+
+    user = UserModel.query.filter_by(email=data['email']).first()
+
+    if not user:
+        return {"message": "User not found"}, HTTPStatus.NOT_FOUND
+    
+    if user.verify_password(data['password']):
+        access_token = create_access_token(identity=user)
+        return {"message": access_token}
+    else:
+        return {"message": "Unauthorized"}, HTTPStatus.UNAUTHORIZED

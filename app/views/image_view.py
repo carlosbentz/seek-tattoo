@@ -31,7 +31,7 @@ def get_image_by_user(user_id: int):
     return get_images(user_id), HTTPStatus.OK
 
 
-@bp.patch('/artist/<user_id>/image/<image_id>', methods=["PATCH"])
+@bp.route('/artist/<user_id>/image/<image_id>', methods=["PATCH"])
 def update(user_id: int, image_id: int):
     
     try:
