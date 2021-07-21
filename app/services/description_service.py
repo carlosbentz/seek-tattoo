@@ -10,7 +10,7 @@ from app.services.helper_service import verify_required_key, verify_missing_key
 
 def update_description(user_id: int):
 
-    required_keys = ["experience", "trait", "paint", "studio_name", "description"]
+    required_keys = ["experience", "trait", "paint", "description", "studio_name"]
 
     session = current_app.db.session
 
@@ -96,7 +96,7 @@ def post(user_id):
 
 
 def delete(user_id):
-    
+
     session = current_app.db.session
 
     user = UserModel.query.get(user_id)
