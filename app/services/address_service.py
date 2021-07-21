@@ -48,6 +48,7 @@ def create(user_id):
     return jsonify(address)
 
 
+
 def get_all():
     
     address = AddressModel.query.all()

@@ -1,24 +1,27 @@
+from app.services.user_service import signup
 from flask import Blueprint, request, current_app, jsonify
-from app.models.user_model import UserModel
+
 from http import HTTPStatus
 
+from app.models.user_model import UserModel
+
+from app.services.helper_service import verify_required_key, verify_missing_key
+
+from app.exc.missing_key import MissingKeyError
+from app.exc.required_key import RequiredKeyError
 
 bp = Blueprint('bp_signup', __name__, url_prefix='/user')
 
 
-@bp.post('/signup')
+@bp.route('/signup', methods=["POST"])
 def create():
-    session =  current_app.db.session
 
-    data = request.get_json()
+    try:
+        return signup(), HTTPStatus.OK
+    
+    except RequiredKeyError as e:
+        return e.message
 
-    password_to_hash = data.pop('password')
+    except MissingKeyError as e:
+        return e.message
 
-    user = UserModel(**data)
-
-    user.password = password_to_hash
-
-    session.add(user)
-    session.commit()
-
-    return jsonify(user), HTTPStatus.CREATED
