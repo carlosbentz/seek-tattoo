@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-
 class RequiredKeyError(Exception):
     def __init__(self, data: dict, key_list: list) -> None:
         self.message = (

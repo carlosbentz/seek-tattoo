@@ -1,12 +1,31 @@
-from flask import current_app, request, jsonify
+from flask import request, jsonify, current_app
+from app.models.image_model import ImageModel
 from http import HTTPStatus
-
-from app.models import ImageModel
-
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
-
 from app.services.helper_service import verify_required_key, verify_missing_key
+
+
+def create(user_id):
+
+    session = current_app.db.session 
+
+    data = request.get_json()
+
+    image = ImageModel(**data)
+
+    image.user_id = user_id
+
+    session.add(image)
+    session.commit()
+
+    return jsonify(
+        {
+            "Image": image
+        }
+    ), HTTPStatus.CREATED
+
+
 
 
 def delete(user_id: int):

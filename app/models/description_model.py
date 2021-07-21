@@ -10,6 +10,7 @@ class DescriptionModel(db.Model):
     experience: int
     trait: str 
     paint: str
+    description: str
     studio_name: str
 
     __tablename__ = 'descriptions'

@@ -1,6 +1,5 @@
 from app.models import UserModel, DescriptionModel
 from flask import current_app, request, jsonify
-import ipdb
 
 
 def update_description(user_id: int):

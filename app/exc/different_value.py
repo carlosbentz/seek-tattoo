@@ -17,3 +17,4 @@ class InvalidOptionError(Exception):
         )
 
         super().__init__(self.message)
+        
