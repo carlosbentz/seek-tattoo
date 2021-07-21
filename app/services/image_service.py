@@ -78,7 +78,8 @@ def get_images(user_id):
                     "user_id": image.user_id,
                     "id": image.id,
                     "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
-                    "styles": image.this_styles
+                    "styles": image.this_styles,
+                    "artist_profile": f"/user/artist/{image.user_id}"
                 }
                 
                 for image in images
@@ -101,7 +102,8 @@ def get_image_by_id(image_id):
                     "user_id": image.user_id,
                     "id": image.id,
                     "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
-                    "styles": image.this_styles
+                    "styles": image.this_styles,
+                    "artist_profile": f"/user/artist/{image.user_id}"
                 }
 
 
@@ -119,7 +121,9 @@ def get_all_images():
                     "user_id": image.user_id,
                     "id": image.id,
                     "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
-                    "styles": image.this_styles
+                    "styles": image.this_styles,
+                    "artist_profile": f"/user/artist/{image.user_id}"
+
                 }
                 
                 for image in images
