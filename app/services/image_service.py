@@ -22,3 +22,30 @@ def delete(user_id: int):
     session.commit()
 
     return {}
+
+
+def update(img_id: int):
+
+    session = current_app.db.session
+
+    data = request.get_json()
+
+    found_img: ImageModel = ImageModel.query.get(img_id)
+
+    if not found_img:
+        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
+
+    for key, value in data.items():
+        setattr(found_img, key, value)
+
+    session.add(found_img)
+    session.commit()
+
+    return {
+        "img_url": found_img.img_url,
+        "description": found_img.description,
+        "user_id": found_img.user_id,
+        "id": found_img.id
+    }, HTTPStatus.OK
+
+
