@@ -75,6 +75,7 @@ def get_images(user_id):
 
     return jsonify(images_of_user)
     
+    
 def get_image_by_id(user_id):
 
     images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
