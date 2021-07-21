@@ -1,17 +1,30 @@
 from app.models import AddressModel
 from flask import current_app, request, jsonify
 
+from app.exc.missing_key import MissingKeyError
+from app.exc.required_key import RequiredKeyError
+
+from app.services.helper_service import verify_required_key, verify_missing_key
+
+from http import HTTPStatus
+
 
 def update_address(user_id: int):
 
     required_keys = ["city", "state"]
+
+    session = current_app.db.session
 
     data = request.get_json()
 
     city = data.get("city")
     state = data.get("state")
 
-    session = current_app.db.session
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
 
     found_address: AddressModel = AddressModel.query.filter_by(user_id=user_id).first()
 
@@ -25,7 +38,6 @@ def update_address(user_id: int):
     session.commit()
 
     output =  {
-        "id": found_address.id,
         "city": found_address.city,
         "state": found_address.state
     }
@@ -34,6 +46,7 @@ def update_address(user_id: int):
 
 
 def create(user_id):
+
     session =  current_app.db.session
 
     data = request.get_json()
@@ -47,7 +60,6 @@ def create(user_id):
 
     return jsonify(address)
 
-    session =  current_app.db.session
 
 def get_all():
     
@@ -71,4 +83,4 @@ def delete(user_id):
     session.delete(address)
     session.commit()
 
-    return ""
+    return "", HTTPStatus.NO_CONTENT
