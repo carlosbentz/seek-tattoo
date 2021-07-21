@@ -1,7 +1,7 @@
 from flask import current_app, jsonify, request
 from http import HTTPStatus
 
-from app.models import ImageModel
+from app.models import ImageModel, ImageStyleModel, StyleModel
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
 from app.services.helper_service import verify_required_key, verify_missing_key
@@ -75,6 +75,7 @@ def get_images(user_id):
 
     return jsonify(images_of_user)
     
+
 def get_image_by_id(user_id):
 
     images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
@@ -83,3 +84,21 @@ def get_image_by_id(user_id):
         return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
 
     return jsonify(images_of_user)
+
+
+def get_all_images():
+
+    images = ImageModel.query.all()
+
+    return jsonify(images)
+
+
+def create_image_style(image_id, style_id):
+    session = current_app.db.session
+
+    image_style = ImageStyleModel(image_id=image_id, style_id=style_id)
+    
+    session.add(image_style)
+    session.commit()
+    
+    return jsonify(image_style)
