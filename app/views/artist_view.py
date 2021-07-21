@@ -49,8 +49,6 @@ def get_artist_id(artist_id: int):
             "images": f"user/artist/{artist.id}/image"
             }
 
-        
-        
 
         if not artist:
             raise ValueError

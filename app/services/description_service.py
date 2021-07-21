@@ -1,7 +1,5 @@
 from app.models import UserModel, DescriptionModel
 from flask import current_app, request, jsonify
-from http import HTTPStatus
-import ipdb
 
 
 def update_description(user_id: int):
@@ -12,7 +10,7 @@ def update_description(user_id: int):
     user = UserModel.query.get(user_id)
 
     if not user:
-        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
+        return {"status": "User NOT FOUND"}
 
     found_description = DescriptionModel.query.get(user.description_id)
 
@@ -33,7 +31,7 @@ def update_description_id_in_user(user_id: int, description_id: int) -> None:
     user = UserModel.query.get(user_id)
 
     if not user:
-        return {"status": "User NOT FOUND"}, HTTPStatus.NOT_FOUND
+        return {"status": "User NOT FOUND"}
 
     user.description_id = description_id
 
