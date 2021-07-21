@@ -41,6 +41,7 @@ def delete(user_id: int):
 
     return {}
 
+
 def get_images(user_id):
 
     images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
@@ -48,6 +49,7 @@ def get_images(user_id):
         return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
 
     return jsonify(images_of_user)
+    
     
 def get_image_by_id(user_id):
 

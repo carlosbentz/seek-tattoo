@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify
 from app.models import UserModel
+
 from app.exc import RequiredKeyError, MissingKeyError
+
 from app.services.user_service import delete, update
 
 from flask_jwt_extended import jwt_required
@@ -20,7 +22,7 @@ def get_users():
     query = users.query.all()
 
     return jsonify({
-        "users": [
+        "Users": [
             {
                 "id": user.id, 
                 "name": user.name, 
@@ -40,7 +42,7 @@ def get_user_by_id(user_id: int):
     query = users.query.get(user_id)
 
     return {
-        "users":
+        "Users":
             {
                 "id": query.id, 
                 "name": query.name, 
