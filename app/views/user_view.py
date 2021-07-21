@@ -2,8 +2,7 @@ from flask import Blueprint, jsonify
 from app.models import UserModel
 
 from app.exc import RequiredKeyError, MissingKeyError
-
-from app.services.user_service import delete, update
+from app.services.user_service import delete, update, get, get_by_id
 
 from flask_jwt_extended import jwt_required
 
@@ -16,52 +15,26 @@ bp = Blueprint('bp_user', __name__, url_prefix="/user")
 @bp.get("/")
 @jwt_required()
 def get_users():
-    
-    users = UserModel()
+    users = get()
 
-    query = users.query.all()
-
-    return jsonify({
-        "Users": [
-            {
-                "id": user.id, 
-                "name": user.name, 
-                "e-mail": user.email, 
-                "is_artist": user.is_artist,
-                "description_id": user.description_id,
-            }
-            for user in query
-        ]
-    }), HTTPStatus.OK
+    return users, HTTPStatus.OK
 
 
 @bp.get("/<int:user_id>")
 def get_user_by_id(user_id: int):
-    users = UserModel()
+    user = get_by_id(user_id)
     
-    query = users.query.get(user_id)
-
-    return {
-        "Users":
-            {
-                "id": query.id, 
-                "name": query.name, 
-                "e-mail": query.email, 
-                "is_artist": query.is_artist,
-                "description_id": query.description_id,
-
-            }
-    }, HTTPStatus.OK
+    return user, HTTPStatus.OK
 
 
-@bp.route('/<int:user_id>', methods=['DELETE'])
+@bp.delete('/<int:user_id>')
 @jwt_required()
 def delete_user(user_id: int):
 
     return delete(user_id), HTTPStatus.OK
 
 
-@bp.route('/<int:user_id>', methods=['PATCH'])
+@bp.patch('/<int:user_id>')
 @jwt_required()
 def update_user(user_id):
 

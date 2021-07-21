@@ -61,6 +61,41 @@ def update(user_id: int):
     return jsonify(output)
 
 
+def get():
+    users = UserModel()
+
+    query = users.query.all()
+
+    return jsonify({
+        "users": [
+            {
+                "id": user.id, 
+                "name": user.name, 
+                "e-mail": user.email, 
+                "is_artist": user.is_artist,
+                "description_id": user.description_id,
+            }
+            for user in query
+        ]
+    })
+
+
+def get_by_id(user_id):
+    users = UserModel()
+    
+    query = users.query.get(user_id)
+
+    return {
+        "users":
+            {
+                "id": query.id, 
+                "name": query.name, 
+                "e-mail": query.email, 
+                "is_artist": query.is_artist,
+                "description_id": query.description_id,
+
+            }
+    }
 def signup():
 
     required_keys = ["name", "email", "password", "is_artist"]
