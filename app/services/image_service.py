@@ -69,26 +69,61 @@ def update(img_id: int):
 
 def get_images(user_id):
 
-    images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
-    if not images_of_user:
-        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
+    images = ImageModel.query.filter_by(user_id=user_id).all()
 
-    return jsonify(images_of_user)
+    images = [
+                {
+                    "img_url": image.img_url,
+                    "description": image.description,
+                    "user_id": image.user_id,
+                    "id": image.id,
+                    "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
+                    "styles": image.this_styles
+                }
+                
+                for image in images
+            ]
+
+    return jsonify(images)
     
 
-def get_image_by_id(user_id):
+def get_image_by_id(image_id):
 
-    images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
+    image = ImageModel.query.get(image_id)
     
-    if not images_of_user:
-        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
+    if not image:
+        return False
 
-    return jsonify(images_of_user)
+                
+    image =     {
+                    "img_url": image.img_url,
+                    "description": image.description,
+                    "user_id": image.user_id,
+                    "id": image.id,
+                    "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
+                    "styles": image.this_styles
+                }
+
+
+    return jsonify(image)
 
 
 def get_all_images():
-
     images = ImageModel.query.all()
+
+
+    images = [
+                {
+                    "img_url": image.img_url,
+                    "description": image.description,
+                    "user_id": image.user_id,
+                    "id": image.id,
+                    "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
+                    "styles": image.this_styles
+                }
+                
+                for image in images
+            ]
 
     return jsonify(images)
 
@@ -102,3 +137,9 @@ def create_image_style(image_id, style_id):
     session.commit()
     
     return jsonify(image_style)
+
+
+def get_styles():
+    styles = StyleModel.query.all()
+
+    return jsonify(styles)

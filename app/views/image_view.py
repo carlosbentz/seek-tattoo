@@ -6,7 +6,7 @@ from http import HTTPStatus
 from app.models.image_model import ImageModel
 from app.exc import RequiredKeyError, MissingKeyError
 from app.services.image_service import delete, update
-from app.services.image_service import delete, get_images, get_image_by_id, get_all_images, create_image_style
+from app.services.image_service import delete, get_images, get_image_by_id, get_all_images, create_image_style, get_styles
 
 bp = Blueprint('bp_image', __name__, url_prefix='/user')
 
@@ -47,8 +47,13 @@ def update(user_id: int, image_id: int):
     
 @bp.get('/artist/<user_id>/image/<image_id>')
 def get_image_by_id_of_artist(user_id: int, image_id):
+    res  = get_image_by_id(image_id)
+
+    if not res:
+        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
+
     
-    return get_image_by_id(user_id), HTTPStatus.OK
+    return res, HTTPStatus.OK
 
 
 @bp.get('/artist/image')
@@ -63,3 +68,9 @@ def post_image_style(user_id, image_id):
     data = request.get_json()
 
     return create_image_style(image_id, data["style_id"])
+
+
+@bp.get('/artist/image/style')
+def get_all_styles():
+
+    return get_styles()
