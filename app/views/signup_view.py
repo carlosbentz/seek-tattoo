@@ -13,7 +13,7 @@ from app.exc.required_key import RequiredKeyError
 bp = Blueprint('bp_signup', __name__, url_prefix='/user')
 
 
-@bp.route('/signup', methods=["POST"])
+@bp.post('/signup')
 def create():
 
     try:

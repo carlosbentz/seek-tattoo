@@ -23,6 +23,6 @@ class ImageModel(db.Model):
 
     user_id = Column(Integer, ForeignKey('users.id'))
 
-    this_style = relationship('StyleModel', cascade="all, delete", backref='this_images', secondary="image_styles", uselist=False)
+    this_styles = relationship('StyleModel', cascade="all, delete", backref='this_images', secondary="image_styles")
 
     this_comment = relationship('CommentModel', cascade="all, delete-orphan", backref=backref('this_image', uselist=False))

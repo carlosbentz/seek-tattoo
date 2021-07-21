@@ -1,7 +1,7 @@
 from flask import current_app, jsonify, request
 from http import HTTPStatus
 
-from app.models import ImageModel
+from app.models import ImageModel, ImageStyleModel, StyleModel
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
 from app.services.helper_service import verify_required_key, verify_missing_key
@@ -69,18 +69,81 @@ def update(img_id: int):
 
 def get_images(user_id):
 
-    images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
-    if not images_of_user:
-        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
+    images = ImageModel.query.filter_by(user_id=user_id).all()
 
-    return jsonify(images_of_user)
-    
-    
-def get_image_by_id(user_id):
+    images = [
+                {
+                    "img_url": image.img_url,
+                    "description": image.description,
+                    "user_id": image.user_id,
+                    "id": image.id,
+                    "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
+                    "styles": image.this_styles,
+                    "artist_profile": f"/user/artist/{image.user_id}"
+                }
+                
+                for image in images
+            ]
 
-    images_of_user = ImageModel.query.filter_by(user_id=user_id).all()
+    return jsonify(images)
     
-    if not images_of_user:
-        return {"status": "Image NOT FOUND"}, HTTPStatus.NOT_FOUND
 
-    return jsonify(images_of_user)
+def get_image_by_id(image_id):
+
+    image = ImageModel.query.get(image_id)
+    
+    if not image:
+        return False
+
+                
+    image =     {
+                    "img_url": image.img_url,
+                    "description": image.description,
+                    "user_id": image.user_id,
+                    "id": image.id,
+                    "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
+                    "styles": image.this_styles,
+                    "artist_profile": f"/user/artist/{image.user_id}"
+                }
+
+
+    return jsonify(image)
+
+
+def get_all_images():
+    images = ImageModel.query.all()
+
+
+    images = [
+                {
+                    "img_url": image.img_url,
+                    "description": image.description,
+                    "user_id": image.user_id,
+                    "id": image.id,
+                    "comments": f"/user/artist/{image.user_id}/image/{image.id}/comment",
+                    "styles": image.this_styles,
+                    "artist_profile": f"/user/artist/{image.user_id}"
+
+                }
+                
+                for image in images
+            ]
+
+    return jsonify(images)
+
+
+def create_image_style(image_id, style_id):
+    session = current_app.db.session
+
+    image_style = ImageStyleModel(image_id=image_id, style_id=style_id)
+    
+    session.add(image_style)
+    session.commit()
+    
+    return jsonify(image_style)
+
+
+def get_styles():
+    styles = StyleModel.query.all()
+
+    return jsonify(styles)
