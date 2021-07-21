@@ -3,8 +3,8 @@ from flask_jwt_extended import jwt_required
 from app.services.image_service import create
 from http import HTTPStatus
 
-from app.models.image_model import ImageModel
 from app.exc import RequiredKeyError, MissingKeyError
+
 from app.services.image_service import delete, update
 from app.services.image_service import delete, get_images, get_image_by_id, get_all_images, create_image_style, get_styles
 
@@ -33,7 +33,7 @@ def get_image_by_user(user_id: int):
 
 @bp.patch('/artist/<user_id>/image/<image_id>')
 @jwt_required()
-def update(user_id: int, image_id: int):
+def update_image(user_id: int, image_id: int):
     
     try:
         return update(image_id), HTTPStatus.OK
