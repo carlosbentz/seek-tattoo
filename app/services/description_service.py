@@ -1,11 +1,26 @@
-from app.models import UserModel, DescriptionModel
 from flask import current_app, request, jsonify
+
+from app.models import UserModel, DescriptionModel
+
+from app.exc.missing_key import MissingKeyError
+from app.exc.required_key import RequiredKeyError
+
+from app.services.helper_service import verify_required_key, verify_missing_key
 
 
 def update_description(user_id: int):
+
+    required_keys = ["experience", "trait", "paint", "studio_name", "description"]
+
     session = current_app.db.session
 
     data = request.get_json()
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
 
     user = UserModel.query.get(user_id)
 
@@ -40,6 +55,7 @@ def update_description_id_in_user(user_id: int, description_id: int) -> None:
 
 
 def update_is_artist(user_id) -> None:
+
     session = current_app.db.session
 
     user = UserModel.query.get(user_id)
@@ -54,6 +70,7 @@ def update_is_artist(user_id) -> None:
 
 
 def get(user_id):
+
     user = UserModel.query.get(user_id)
 
     description = DescriptionModel.query.get(user.description_id)
@@ -62,9 +79,11 @@ def get(user_id):
 
 
 def post(user_id):
+
     session =  current_app.db.session
 
     data = request.get_json()
+
 
     description = DescriptionModel(**data)
 
@@ -77,6 +96,7 @@ def post(user_id):
 
 
 def delete(user_id):
+    
     session = current_app.db.session
 
     user = UserModel.query.get(user_id)
