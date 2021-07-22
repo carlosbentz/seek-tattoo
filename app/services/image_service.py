@@ -1,11 +1,13 @@
+from re import T
 from flask import current_app, jsonify, request
 from http import HTTPStatus
+import itertools
 
-from app.models import ImageModel, ImageStyleModel, StyleModel
+from app.models import ImageModel, ImageStyleModel, StyleModel, UserModel, AddressModel
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
 from app.services.helper_service import verify_required_key, verify_missing_key
-
+from ipdb import set_trace
 
 def create(user_id):
 
@@ -111,7 +113,50 @@ def get_image_by_id(image_id):
 
 
 def get_all_images():
-    images = ImageModel.query.all()
+
+    if request.args.get("style", type=str):
+        style_name = request.args.get("style", type=str)
+
+        style = StyleModel.query.filter(StyleModel.style_name.ilike(f"%{style_name}%")).first()
+        image_styles = ImageStyleModel.query.filter_by(style_id=style.id).all()
+
+        images = [
+                    ImageModel.query.get(image.image_id) 
+                    for image in image_styles
+                ]
+        
+
+    elif request.args.get("city", type=str):
+        city = request.args.get("city", type=str)
+
+        addresses = AddressModel.query.filter(AddressModel.city.ilike(f"%{city}%")).all()
+
+        users = [UserModel.query.get(address.user_id)
+                    for address in addresses
+                ]
+        
+        artists = [user for user in users if user.is_artist==True]
+
+        images = [
+                    ImageModel.query.filter_by(user_id=artist.id).all()
+                    for artist in artists
+                ]
+
+        images = list(itertools.chain(*images))
+
+    
+    elif request.args.get("artist_name", type=str):
+        try:
+            artist_name = request.args.get("artist_name", type=str)
+        
+            user = UserModel.query.filter(UserModel.name.ilike(f"%{artist_name}%")).first()
+            images = ImageModel.query.filter_by(user_id=user.id).all()
+
+        except:
+            return []
+
+    else:
+        images = ImageModel.query.all()
 
 
     images = [
@@ -129,7 +174,7 @@ def get_all_images():
                 for image in images
             ]
 
-    return jsonify(images)
+    return images
 
 
 def create_image_style(image_id, style_id):
