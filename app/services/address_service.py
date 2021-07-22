@@ -60,10 +60,6 @@ def create(user_id):
 
     return jsonify(address)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1b7397246e9205c7aa478f11c32df32271a0bf03
 
 def get_all():
     
