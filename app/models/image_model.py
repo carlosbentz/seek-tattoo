@@ -26,3 +26,5 @@ class ImageModel(db.Model):
     this_styles = relationship('StyleModel', cascade="all, delete", backref='this_images', secondary="image_styles")
 
     this_comment = relationship('CommentModel', cascade="all, delete-orphan", backref=backref('this_image', uselist=False))
+
+    this_user = relationship('UserModel', backref=backref('this_images', cascade="all, delete-orphan"), uselist=False)
