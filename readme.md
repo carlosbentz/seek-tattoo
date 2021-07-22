@@ -475,7 +475,7 @@ Para criar um endereço, o usuário deve ser do tipo artista.
 ## GET ALL ARTIST IMAGES
 
 ### Request
-
+`**Parâmetros de url: page=15, per_page=999, city=são paulo, style=tribal, name=josé**`
 `GET user/artist/image`
 
 ### Response
