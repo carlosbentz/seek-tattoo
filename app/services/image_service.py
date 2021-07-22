@@ -6,6 +6,9 @@ import itertools
 from app.models import ImageModel, ImageStyleModel, StyleModel, UserModel, AddressModel
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
+from app.models import ImageModel, ImageStyleModel, StyleModel
+from app.exc import MissingKeyError, RequiredKeyError
+
 from app.services.helper_service import verify_required_key, verify_missing_key
 from ipdb import set_trace
 
@@ -46,9 +49,17 @@ def delete(user_id: int):
 
 def update(img_id: int):
 
+    required_keys = ["img_url", "description"]
+
     session = current_app.db.session
 
     data = request.get_json()
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
 
     found_img: ImageModel = ImageModel.query.get(img_id)
 
@@ -63,10 +74,8 @@ def update(img_id: int):
 
     return {
         "img_url": found_img.img_url,
-        "description": found_img.description,
-        "user_id": found_img.user_id,
-        "id": found_img.id
-    }, HTTPStatus.OK
+        "description": found_img.description
+    }
 
 
 def get_images(user_id):
@@ -178,6 +187,7 @@ def get_all_images():
 
 
 def create_image_style(image_id, style_id):
+
     session = current_app.db.session
 
     image_style = ImageStyleModel(image_id=image_id, style_id=style_id)
@@ -189,6 +199,7 @@ def create_image_style(image_id, style_id):
 
 
 def get_styles():
+
     styles = StyleModel.query.all()
 
     return jsonify(styles)
