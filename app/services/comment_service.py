@@ -1,6 +1,5 @@
 from app.models import CommentModel
-from http import HTTPStatus
-from flask import current_app, request, jsonify
+from flask import current_app, jsonify
 from datetime import datetime
 
 
