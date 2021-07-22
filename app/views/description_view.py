@@ -13,6 +13,7 @@ bp = Blueprint('bp_description', __name__, url_prefix="/user")
 @bp.post("/artist/<user_id>/description")
 @jwt_required()
 def create_description(user_id: int):
+
     current_user = get_jwt_identity()
 
     if current_user["is_artist"] == False:
@@ -30,6 +31,7 @@ def get_description(user_id: int):
 @bp.patch("/artist/<user_id>/description")
 @jwt_required()
 def patch_description(user_id: int):
+    
     try:
         return update_description(user_id), HTTPStatus.OK
     

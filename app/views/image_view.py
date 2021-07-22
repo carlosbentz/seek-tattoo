@@ -1,10 +1,10 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from app.services.image_service import create
 from http import HTTPStatus
 
-from app.models.image_model import ImageModel
 from app.exc import RequiredKeyError, MissingKeyError
+
 from app.services.image_service import delete, update
 from app.services.image_service import delete, get_images, get_image_by_id, get_all_images, create_image_style, get_styles
 
@@ -33,7 +33,7 @@ def get_image_by_user(user_id: int):
 
 @bp.patch('/artist/<user_id>/image/<image_id>')
 @jwt_required()
-def update(user_id: int, image_id: int):
+def update_image(user_id: int, image_id: int):
     
     try:
         return update(image_id), HTTPStatus.OK
@@ -58,8 +58,20 @@ def get_image_by_id_of_artist(user_id: int, image_id):
 
 @bp.get('/artist/image')
 def get_all_artist_images():
-    
-    return get_all_images(), HTTPStatus.OK
+    images = get_all_images()
+
+    page = request.args.get('page', type=int) or 1
+    per_page = request.args.get('per_page', type=int) or len(images) + 1
+    actual_page = page * per_page
+    previous_page = (page -1) * per_page
+
+    if per_page > len(images):
+        return jsonify(images)
+
+    return jsonify([image for i, image in enumerate(images) if i >= previous_page and i < actual_page])
+
+
+    # return get_all_images(), HTTPStatus.OK
 
 
 @bp.post("/artist/<user_id>/image/<image_id>/style")

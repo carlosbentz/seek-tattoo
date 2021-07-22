@@ -50,6 +50,7 @@ def modify_address(user_id):
 @bp.delete("/artist/<user_id>/address")
 @jwt_required()
 def delete_address(user_id: int):
+    
     user = get_jwt_identity()
 
     return delete(user_id), HTTPStatus.NO_CONTENT

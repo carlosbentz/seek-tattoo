@@ -1,11 +1,16 @@
+from re import T
 from flask import current_app, jsonify, request
 from http import HTTPStatus
+import itertools
 
-from app.models import ImageModel, ImageStyleModel, StyleModel
+from app.models import ImageModel, ImageStyleModel, StyleModel, UserModel, AddressModel
 from app.exc.missing_key import MissingKeyError
 from app.exc.required_key import RequiredKeyError
-from app.services.helper_service import verify_required_key, verify_missing_key
+from app.models import ImageModel, ImageStyleModel, StyleModel
+from app.exc import MissingKeyError, RequiredKeyError
 
+from app.services.helper_service import verify_required_key, verify_missing_key
+from ipdb import set_trace
 
 def create(user_id):
 
@@ -44,9 +49,17 @@ def delete(user_id: int):
 
 def update(img_id: int):
 
+    required_keys = ["img_url", "description"]
+
     session = current_app.db.session
 
     data = request.get_json()
+
+    if verify_required_key(data, required_keys):
+        raise RequiredKeyError(data, required_keys)
+
+    if verify_missing_key(data, required_keys):
+        raise MissingKeyError(data, required_keys)
 
     found_img: ImageModel = ImageModel.query.get(img_id)
 
@@ -61,10 +74,8 @@ def update(img_id: int):
 
     return {
         "img_url": found_img.img_url,
-        "description": found_img.description,
-        "user_id": found_img.user_id,
-        "id": found_img.id
-    }, HTTPStatus.OK
+        "description": found_img.description
+    }
 
 
 def get_images(user_id):
@@ -111,7 +122,50 @@ def get_image_by_id(image_id):
 
 
 def get_all_images():
-    images = ImageModel.query.all()
+
+    if request.args.get("style", type=str):
+        style_name = request.args.get("style", type=str)
+
+        style = StyleModel.query.filter(StyleModel.style_name.ilike(f"%{style_name}%")).first()
+        image_styles = ImageStyleModel.query.filter_by(style_id=style.id).all()
+
+        images = [
+                    ImageModel.query.get(image.image_id) 
+                    for image in image_styles
+                ]
+        
+
+    elif request.args.get("city", type=str):
+        city = request.args.get("city", type=str)
+
+        addresses = AddressModel.query.filter(AddressModel.city.ilike(f"%{city}%")).all()
+
+        users = [UserModel.query.get(address.user_id)
+                    for address in addresses
+                ]
+        
+        artists = [user for user in users if user.is_artist==True]
+
+        images = [
+                    ImageModel.query.filter_by(user_id=artist.id).all()
+                    for artist in artists
+                ]
+
+        images = list(itertools.chain(*images))
+
+    
+    elif request.args.get("artist_name", type=str):
+        try:
+            artist_name = request.args.get("artist_name", type=str)
+        
+            user = UserModel.query.filter(UserModel.name.ilike(f"%{artist_name}%")).first()
+            images = ImageModel.query.filter_by(user_id=user.id).all()
+
+        except:
+            return []
+
+    else:
+        images = ImageModel.query.all()
 
 
     images = [
@@ -129,10 +183,11 @@ def get_all_images():
                 for image in images
             ]
 
-    return jsonify(images)
+    return images
 
 
 def create_image_style(image_id, style_id):
+
     session = current_app.db.session
 
     image_style = ImageStyleModel(image_id=image_id, style_id=style_id)
@@ -144,6 +199,7 @@ def create_image_style(image_id, style_id):
 
 
 def get_styles():
+
     styles = StyleModel.query.all()
 
     return jsonify(styles)
